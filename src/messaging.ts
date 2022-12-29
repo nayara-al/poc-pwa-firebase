@@ -18,18 +18,19 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig)
 
-const messaging = getMessaging(app);
+const messaging = getMessaging(app)
 
 function requestPermission() {
   console.log("Requesting permission...");
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
       console.log("Notification permission granted.");
+
       getToken(messaging, {
         vapidKey:
-          "BN1VwFqGIDSKX0QZu0afbIrKt2AyxThRTt-BaSocHmSz3fRBe6uo2CP53Zsd1hnO07ai30CyFikhYWgaLspEELk",
+        "BN1VwFqGIDSKX0QZu0afbIrKt2AyxThRTt-BaSocHmSz3fRBe6uo2CP53Zsd1hnO07ai30CyFikhYWgaLspEELk",
       }).then((currentToken) => {
         if (currentToken) {
           console.log("currentToken:", currentToken);
