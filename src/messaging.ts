@@ -22,9 +22,9 @@ const app = initializeApp(firebaseConfig)
 
 const messaging = getMessaging(app)
 
-function requestPermission() {
+function requestPermission(): string {
   console.log("Requesting permission...");
-  let token
+  let token: string =''
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
       console.log("Notification permission granted.");
@@ -64,4 +64,4 @@ function requestPermission() {
   return token
 }
 
-export let finalToken = requestPermission()
+export let finalToken: string = requestPermission()
