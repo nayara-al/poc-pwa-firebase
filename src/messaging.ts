@@ -24,17 +24,18 @@ const messaging = getMessaging(app)
 
 function requestPermission() {
   console.log("Requesting permission...");
+  let token
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
       console.log("Notification permission granted.");
-
+      
       getToken(messaging, {
         vapidKey:
         "BJtepweGBqKfSTKImWUYd9U-Ukg0ORnCJnMcFs4wmGI1z6Q3wJFB1IJPxK3QogSmRsh6WRnBkDoGBBk3Rpr_eZM",
       }).then((currentToken) => {
         if (currentToken) {
           console.log("currentToken:", currentToken);
-          alert(currentToken)
+          token = currentToken
         } else {
           // Show permission request UI
           console.log(
@@ -60,6 +61,7 @@ function requestPermission() {
       console.log("Do not have permission.");
     }
   });
+  return token
 }
 
-requestPermission();
+export let finalToken = requestPermission()
