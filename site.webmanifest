@@ -5,7 +5,8 @@
         {
             "src": "https://poc-pwa-firebase.vercel.app/icons/android-chrome-96x96.png",
             "sizes": "96x96",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         },
         {
             "src": "https://poc-pwa-firebase.vercel.app/icons/android-chrome-144x144.png",
