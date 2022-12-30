@@ -22,29 +22,7 @@ const app = initializeApp(firebaseConfig)
 
 const messaging = getMessaging(app)
 
-function requestPermission(): string {
-  console.log("Requesting permission...");
-  let token: string =''
-  Notification.requestPermission().then((permission) => {
-    if (permission === "granted") {
-      console.log("Notification permission granted.");
-      
-      getToken(messaging, {
-        vapidKey:
-        "BJtepweGBqKfSTKImWUYd9U-Ukg0ORnCJnMcFs4wmGI1z6Q3wJFB1IJPxK3QogSmRsh6WRnBkDoGBBk3Rpr_eZM",
-      }).then((currentToken) => {
-        if (currentToken) {
-          console.log("currentToken:", currentToken);
-          token = currentToken
-        } else {
-          // Show permission request UI
-          console.log(
-            "No registration token available. Request permission to generate one."
-          );
-          // ...
-        }
-      });
-      onMessage(messaging, ({ notification }) => {
+onMessage(messaging, ({ notification }) => {
         const notificationTitle = notification?.title ?? "";
         const notificationOptions = {
           body: notification?.body ?? "É só um exemplo",
@@ -57,11 +35,25 @@ function requestPermission(): string {
           );
         });
       });
-    } else {
-      console.log("Do not have permission.");
-    }
-  });
-  return token
+
+async function requestPermission(): Promise<string>{
+  console.log("Requesting permission...");
+  const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      console.log("Notification permission granted.");
+      const token = await getToken(messaging, {
+        vapidKey:
+        "BJtepweGBqKfSTKImWUYd9U-Ukg0ORnCJnMcFs4wmGI1z6Q3wJFB1IJPxK3QogSmRsh6WRnBkDoGBBk3Rpr_eZM",
+      });
+      if (token) {
+          return Promise.resolve(token)
+        } else {
+          return Promise.reject(
+            "No registration token available. Request permission to generate one."
+          );
+        }
+      }
+    return Promise.reject('Do not have permission') 
 }
 
-export let finalToken: string = requestPermission()
+export {requestPermission}

@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
-import {finalToken} from './messaging'
+import {requestPermission} from './messaging'
 
 function App() {
   const [count, setCount] = useState(0);
 
   const [token, setToken] = useState('');
   useEffect(() => {
-    setToken(`${finalToken}`)
+    requestPermission().then(data => {
+      setToken(data);
+    }).catch(error => {
+      console.log(error);
   });
+  }, [])
 
   return (
     <div className="App">
